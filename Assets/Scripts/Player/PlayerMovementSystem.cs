@@ -7,31 +7,38 @@ using UnityEngine;
 [UpdateBefore(typeof(TransformSystemGroup))]
 public partial struct PlayerMovementSystem : ISystem
 {
-    [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
+        Camera mainCamera = Camera.main;
         float deltaTime = SystemAPI.Time.DeltaTime;
-        // float moveInput = Input.GetAxis("Horizontal");
 
-        new PlayerMovementJob()
+        if (mainCamera != null)
         {
-            // MoveInput = moveInput,
-            DeltaTime = deltaTime
-        }.Schedule();
+            float3 minBounds = mainCamera.ScreenToWorldPoint(new Vector3(0, 0, 0));
+            float3 maxBounds = mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
+
+            new PlayerMovementJob()
+            {
+                DeltaTime = deltaTime,
+                MinBounds = minBounds,
+                MaxBounds = maxBounds
+            }.Schedule();
+        }
     }
 }
 
 [BurstCompile]
 public partial struct PlayerMovementJob : IJobEntity
 {
-    // public float MoveInput;
     public float DeltaTime;
+    public float3 MinBounds;
+    public float3 MaxBounds;
 
     public void Execute(ref LocalTransform transform, in PlayerMoveInput input, PlayerMoveSpeed speed)
     {
-        transform.Position.xy += input.Value * speed.Value * DeltaTime;
-        // float3 position = transform.Position;
-        // position.x += MoveInput * playerComponent.Speed * DeltaTime;
-        // transform.Position = position;
+        float2 newPosition = transform.Position.xy + input.Value * speed.Value * DeltaTime;
+        newPosition = math.clamp(newPosition, MinBounds.xy, MaxBounds.xy);
+        
+        transform.Position.xy = newPosition;
     }
 }
