@@ -1,5 +1,6 @@
 using Unity.Entities;
 using Unity.Mathematics;
+using UnityEngine;
 
 namespace Meteor
 {
@@ -9,12 +10,9 @@ namespace Meteor
         public float3 Velocity;
         public float RotationSpeed;
         public float SpawnYPosition;
-    }
-    
-    public struct MeteorPrefab : IComponentData
-    {
-        public Entity Value;
-        public bool HasValue => Value != Entity.Null;
+        public float NextSpawnTime;
+        public float SpawnRate;
+        public Entity MeteorPrefab;
     }
     
     public struct MeteorTag : IComponentData, IEnableableComponent

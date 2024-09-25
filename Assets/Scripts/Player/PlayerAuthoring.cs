@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerAuthoring : MonoBehaviour
 {
     public GameObject ProjectilePrefab;
-    public GameObject MeteorPrefab;
     public float MoveSpeed = 5f;
 }
 
@@ -29,13 +28,6 @@ public class PlayerBaker : Baker<PlayerAuthoring>
         AddComponent(entity, new ProjectilePrefab
         {
             Value = GetEntity(authoring.ProjectilePrefab, TransformUsageFlags.Dynamic)
-        });
-        
-        AddComponent<MeteorTag>(entity);
-        SetComponentEnabled<MeteorTag>(entity, false);
-        AddComponent(entity, new MeteorPrefab
-        {
-            Value = GetEntity(authoring.MeteorPrefab, TransformUsageFlags.Dynamic)
         });
     }
 }

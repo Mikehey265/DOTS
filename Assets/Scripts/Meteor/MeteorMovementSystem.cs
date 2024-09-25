@@ -9,13 +9,6 @@ namespace Meteor
     [BurstCompile]
     public partial class MeteorMovementSystem : SystemBase
     {
-        
-        [BurstCompile]
-        protected override void OnCreate()
-        {
-            
-        }
-
         [BurstCompile]
         protected override void OnUpdate()
         {
@@ -24,7 +17,7 @@ namespace Meteor
             // Create the job for moving and rotating meteors
             var job = new MeteorMovementJob
             {
-                deltaTimeJob = deltaTime
+                deltaTime = deltaTime
             };
 
             // Schedule the job for parallel execution
@@ -34,16 +27,16 @@ namespace Meteor
         [BurstCompile]
         public partial struct MeteorMovementJob : IJobEntity
         {
-            public float deltaTimeJob;
+            public float deltaTime;
 
             // This method defines what happens to each entity with LocalTransform and MeteorComponents
             public void Execute(ref LocalTransform transform, in MeteorComponents movement)
             {
                 // Move the meteor
-                transform.Position += movement.Velocity * deltaTimeJob;
+                transform.Position += movement.Velocity * deltaTime;
 
                 // Rotate the meteor
-                transform.Rotation = math.mul(transform.Rotation, quaternion.RotateZ(movement.RotationSpeed * deltaTimeJob));
+                transform.Rotation = math.mul(transform.Rotation, quaternion.RotateZ(movement.RotationSpeed * deltaTime));
             }
         }
     }

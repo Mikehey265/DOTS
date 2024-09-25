@@ -9,7 +9,6 @@ namespace Meteor
         public float3 Position;
         public float3 Velocity;
         public float RotationSpeed;
-        public float SpawnYPosition;
         public GameObject MeteorPrefab;
         
         private class MeteorAuthoringBaker : Baker<MeteorAuthoring>
@@ -22,13 +21,7 @@ namespace Meteor
                     Position = authoring.Position,
                     Velocity = authoring.Velocity,
                     RotationSpeed = authoring.RotationSpeed,
-                    SpawnYPosition = authoring.SpawnYPosition
-                });
-                
-                // Add meteor prefab
-                AddComponent(entity, new MeteorPrefab
-                {
-                    Value = GetEntity(authoring.MeteorPrefab, TransformUsageFlags.Dynamic)
+                    MeteorPrefab = GetEntity(authoring.MeteorPrefab, TransformUsageFlags.Dynamic)
                 });
             }
         }
