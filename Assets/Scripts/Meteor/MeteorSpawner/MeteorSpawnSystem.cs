@@ -78,6 +78,9 @@ namespace Meteor.MeteorSpawner
                 // Generate a random position for the meteor
                 float randomX = random.NextFloat(-7, 7);
                 
+                // Generate a new random number from the generator
+                float randomScale = random.NextFloat(0.5f, 2.5f);
+                
                 // Update the random number generator for this thread
                 RandomArray[ThreadIndex] = random;
                 
@@ -89,34 +92,8 @@ namespace Meteor.MeteorSpawner
                 
                 // Spawn a new meteor
                 Entity newMeteor = Ecb.Instantiate(chunkIndex, meteorComponent.MeteorPrefab);
-                Ecb.SetComponent(chunkIndex, newMeteor, LocalTransform.FromPositionRotation(new float3(randomX, meteorComponent.SpawnYPosition, 0), quaternion.identity));
-                
-                // reset the next spawn time
-                meteorComponent.NextSpawnTime = (float)ElapsedTime + meteorComponent.SpawnRate;
+                Ecb.SetComponent(chunkIndex, newMeteor, LocalTransform.FromPositionRotationScale(new float3(randomX, meteorComponent.SpawnYPosition, 0), quaternion.identity, randomScale));
             }
-            /*if (meteorComponent.NextSpawnTime < ElapsedTime)
-            {
-                
-                
-            }*/
         }
     }
 }
-
-/*// Old Implementation
-            float spawnInterval = 1.0f;
-            double time = SystemAPI.Time.ElapsedTime;
-            var ecb = new EntityCommandBuffer(Unity.Collections.Allocator.TempJob);
-            if (time % spawnInterval < SystemAPI.Time.DeltaTime)
-            {
-                Debug.Log("Spawning meteor");
-                foreach (var (meteorPrefab, meteorComponents) in SystemAPI.Query<MeteorPrefab, MeteorComponents>().WithAll<MeteorTag>())
-                {
-                    var meteorTransform = LocalTransform.FromPositionRotation(new float3(UnityEngine.Random.Range(-7, 7), meteorComponents.SpawnYPosition, 0), quaternion.identity);
-                    // Instantiate meteor prefab
-                    Entity newMeteor = ecb.Instantiate(meteorPrefab.Value);
-                    ecb.SetComponent(newMeteor, meteorTransform);
-                }
-                ecb.Playback(state.EntityManager);
-                ecb.Dispose();
-            }*/

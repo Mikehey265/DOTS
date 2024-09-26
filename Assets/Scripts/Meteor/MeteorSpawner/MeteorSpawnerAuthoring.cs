@@ -19,7 +19,6 @@ namespace Meteor.MeteorSpawner
                     MeteorPrefab = GetEntity(authoring.MeteorPrefab, TransformUsageFlags.Dynamic),
                     SpawnYPosition = authoring.SpawnHeight,
                     SpawnRate = authoring.SpawnRate,
-                    NextSpawnTime = 0.0f
                 });
                 
                 // Ensure the prefab is not null

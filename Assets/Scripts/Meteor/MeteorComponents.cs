@@ -10,7 +10,6 @@ namespace Meteor
         public float3 Velocity;
         public float RotationSpeed;
         public float SpawnYPosition;
-        public float NextSpawnTime;
         public float SpawnRate;
         public Entity MeteorPrefab;
     }

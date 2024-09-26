@@ -210,7 +210,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MeteorPrefab: {fileID: 8115293092973029956, guid: d6333f3d2a2f61043ae5969355c78c5b, type: 3}
   SpawnRate: 0.5
-  SpawnHeight: 4
+  SpawnHeight: 6
 --- !u!4 &1235863057
 Transform:
   m_ObjectHideFlags: 0
