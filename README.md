@@ -1,5 +1,21 @@
 # DOTS
 
+## Player Movement System
+
+- **PlayerAuthoring.cs**: Defines the player authoring component in the Unity Editor and sets basic attributes for the player such as projectile prefab and movement speed. Baker then converts the authoring component into ECS entities.
+- **PlayerComponent.cs**: This defines the ECS player components.
+- **PlayerInputSystem.cs**: Manages player input through Unity's new input system. It initializes input actions and listens for movement and shooting inputs. This system ensures the player entity responds to both movement and shooting inputs from the player.
+- **PlayerMovementSystem.cs**: Controls the player's movement based on input and constraints within the screen bounds. This system runs before the transform system to update the player's position each frame.
+- **ResetInpuSystem.cs**: This script is responsible for resetting the FireProjectileTag at the end of each frame.
+
+## Projectile System
+
+- **FireProjectileSystem.cs**: This script is responsible for instantiating projectiles when the FireProjectileTag is present on a player entity.
+- **ProjectileAuthoring.cs**: Responsible for converting the authoring component into an ECS component during the baking process.
+- **ProjectileMoveSystem.cs**: Handles the movement of projectile entities during runtime.
+
+The projectile firing and movement logic are handled in an efficient and modular manner using Unity’s ECS. The process begins when the player fires a projectile, triggering the FireProjectileSystem, which instantiates a projectile at the player’s location using a prefab. The speed and movement behavior of the projectile are defined by the ProjectileAuthoring component and baked into ECS components via ProjectileAuthoringBaker. Once instantiated, the projectile’s movement is handled by the ProjectileMoveSystem, which updates the projectile's position each frame based on its speed.
+
 ## Meteor Spawning System
 
 The system consists of two components and systems that handle the spawning, movement, and management of meteors using Unity's ECS and Burst Compiler.
